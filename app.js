@@ -22,21 +22,40 @@ async function findBeanies(title, astroSign) {
 
     error = response.error;
     beanies = response.data;
-    return response;
+
+    if (!error) {
+        displayBeanies();
+    }
 }
 
 // (don't forget to call any display functions you want to run on page load!)
 window.addEventListener('load', async () => {
-    await findBeanies();
+    findBeanies();
     displayBeanies();
+
+    const response = await getAstroSigns();
+
+    error = response.error;
+    astroSigns = response.data;
+
+    if (!error) {
+        displayAstroSignOptions();
+    }
 });
 
 function displayBeanies() {
     beanieList.innerHTML = '';
 
     for (const beanie of beanies) {
-        console.log(beanie);
         const beanieEl = renderBeanie(beanie);
         beanieList.append(beanieEl);
+    }
+}
+
+function displayAstroSignOptions(astroSign) {
+    for (const astroSign of astroSigns) {
+        const astroSignEl = renderAstroSignOption(astroSign);
+        console.log(astroSign);
+        astroSignSelect.append(astroSignEl);
     }
 }

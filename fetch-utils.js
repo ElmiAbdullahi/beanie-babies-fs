@@ -7,9 +7,20 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function getBeanies(title, astroSign) {
     let query = client.from('beanie_babies').select('*').order('title').limit(100);
 
+    if (title) {
+        query.ilike('title', `%${title}%`);
+    }
+
+    if (astroSign) {
+        query.eq('astroSign', astroSign);
+    }
+
     const response = await query;
 
     return response;
 }
 
-export async function getAstroSigns() {}
+export async function getAstroSigns() {
+    const response = await client.from('beanie_baby_astro_signs').select();
+    return response;
+}
