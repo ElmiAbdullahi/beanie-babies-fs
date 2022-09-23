@@ -43,7 +43,7 @@ window.addEventListener('load', async () => {
     displayNotifications();
 
     if (!error) {
-        displayAstroSignOptions();
+        displayAstroSignOptions(astroSigns);
     }
 });
 
@@ -63,7 +63,6 @@ function displayBeanies() {
 }
 
 function displayNotifications() {
-    console.log(count);
     if (error) {
         notificationDisplay.classList.add('error');
         notificationDisplay.textContent = error.message;
@@ -72,7 +71,7 @@ function displayNotifications() {
     }
 }
 
-function displayAstroSignOptions(astroSign) {
+function displayAstroSignOptions(astroSigns) {
     for (const astroSign of astroSigns) {
         const astroSignEl = renderAstroSignOption(astroSign);
 
