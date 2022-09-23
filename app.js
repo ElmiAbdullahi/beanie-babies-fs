@@ -17,4 +17,26 @@ let beanies = [];
 
 /* Display Functions */
 
+async function findBeanies(title, astroSign) {
+    const response = await getBeanies(title, astroSign);
+
+    error = response.error;
+    beanies = response.data;
+    return response;
+}
+
 // (don't forget to call any display functions you want to run on page load!)
+window.addEventListener('load', async () => {
+    await findBeanies();
+    displayBeanies();
+});
+
+function displayBeanies() {
+    beanieList.innerHTML = '';
+
+    for (const beanie of beanies) {
+        console.log(beanie);
+        const beanieEl = renderBeanie(beanie);
+        beanieList.append(beanieEl);
+    }
+}
