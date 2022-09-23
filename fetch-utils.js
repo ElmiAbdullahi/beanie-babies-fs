@@ -5,7 +5,11 @@ const SUPABASE_KEY =
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function getBeanies(name, astroSign) {
-    let query = client.from('beanie_babies').select('*').order('title').limit(100);
+    let query = client
+        .from('beanie_babies')
+        .select('*', { count: 'exact' })
+        .order('title')
+        .limit(100);
 
     if (name) {
         query.ilike('title', `%${name}%`);

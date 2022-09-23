@@ -22,7 +22,8 @@ async function findBeanies(name, astroSign) {
 
     error = response.error;
     beanies = response.data;
-
+    count = response.count;
+    displayNotifications();
     if (!error) {
         displayBeanies();
     }
@@ -36,11 +37,20 @@ window.addEventListener('load', async () => {
     const response = await getAstroSigns();
 
     error = response.error;
+
     astroSigns = response.data;
+
+    displayNotifications();
 
     if (!error) {
         displayAstroSignOptions();
     }
+});
+
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(searchForm);
+    findBeanies(formData.get('name'), formData.get('astroSign'));
 });
 
 function displayBeanies() {
@@ -52,6 +62,16 @@ function displayBeanies() {
     }
 }
 
+function displayNotifications() {
+    console.log(count);
+    if (error) {
+        notificationDisplay.classList.add('error');
+        notificationDisplay.textContent = error.message;
+    } else {
+        notificationDisplay.textContent = `Showing ${beanies.length} of ${count} matching beanies`;
+    }
+}
+
 function displayAstroSignOptions(astroSign) {
     for (const astroSign of astroSigns) {
         const astroSignEl = renderAstroSignOption(astroSign);
@@ -59,9 +79,3 @@ function displayAstroSignOptions(astroSign) {
         astroSignSelect.append(astroSignEl);
     }
 }
-
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(searchForm);
-    findBeanies(formData.get('name'), formData.get('astroSign'));
-});
